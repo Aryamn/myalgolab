@@ -122,17 +122,17 @@ node* createSuper(node **head, int i)
 	return p;
 }
 
-void display(node *head)
-{
-	node *p;
-	p = head;
-
-	while(p!=NULL)
-	{
-		printf("%c%c%c = %d \n",p->symbol[0],p->symbol[1],p->symbol[2],p->frequency);
-		p = p->next;
-	}
-}
+//void display(node *head)
+//{
+//	node *p;
+//	p = head;
+//
+//	while(p!=NULL)
+//	{
+//		printf("%c%c%c = %d \n",p->symbol[0],p->symbol[1],p->symbol[2],p->frequency);
+//		p = p->next;
+//	}
+//}
 
 void preorder(node *head)
 {
@@ -141,17 +141,31 @@ void preorder(node *head)
 		printf("%c%c%c  ",head->symbol[0],head->symbol[1],head->symbol[2]);
 		preorder(head->left);
 		preorder(head->right);
-	}
+	} 
+}
 
-	//head = head->next; 
+node* encode(node* head, char code[])
+{
+	int i;
+	node *p = head;
+	
+	if(p->left == NULL || p->right == NULL)
+		return p;
+		
+	else
+	{
+		encode(p->left , strcat(code,"0"));
+		encode(p->right , strcat(code,"1"));
+	}
 }
 
 int main()
 {
-	int a[37] = {0},i;
+	int a[37] = {0},i,j=0;
 	char s[max];
 	node *p,*head=NULL;
-
+	char code[36][100];
+	
 	scanf("%s",s);
 	frequency(a,s);
 
@@ -167,8 +181,24 @@ int main()
 		head = insert(head , p);
 	}
 
-	//display(head);
 	preorder(head);
+	
+//	for(i=0;i<35;i++)
+//	{
+//		p = encode(head , code[i]);
+//		
+//		printf("\n");
+//		printf("%c ",p->symbol[0]);
+//		j=0;
+//		
+//		while(code[i][j]!='\0')
+//		{
+//			printf("%c",code[i][j]);
+//			j++;
+//		}
+//		printf("\n");
+//		
+//	}
 
 	return 0;
 }
