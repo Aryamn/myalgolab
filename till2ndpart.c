@@ -144,27 +144,58 @@ void preorder(node *head)
 	} 
 }
 
-node* encode(node* head, char code[])
-{
-	int i;
-	node *p = head;
-	
-	if(p->left == NULL || p->right == NULL)
-		return p;
-		
-	else
-	{
-		encode(p->left , strcat(code,"0"));
-		encode(p->right , strcat(code,"1"));
-	}
-}
+
+void printArr(int arr[], int n) 
+{ 
+    int i; 
+    for (i = 0; i < n; ++i) 
+        printf("%d", arr[i]); 
+  
+    printf("\n"); 
+} 
+
+int isLeaf(node* root) 
+  
+{ 
+  
+    return !(root->left) && !(root->right); 
+} 
+
+void printCodes(node* root, int arr[], int top) 
+  
+{ 
+  
+    // Assign 0 to left edge and recur 
+    if (root->left) { 
+  
+        arr[top] = 0; 
+        printCodes(root->left, arr, top + 1); 
+    } 
+  
+    // Assign 1 to right edge and recur 
+    if (root->right) { 
+  
+        arr[top] = 1; 
+        printCodes(root->right, arr, top + 1); 
+    } 
+  
+    // If this is a leaf node, then 
+    // it contains one of the input 
+    // characters, print the character 
+    // and its code from arr[] 
+    if (isLeaf(root)) { 
+  
+        printf("%c: ", root->symbol[0]); 
+        printArr(arr, top); 
+    } 
+} 
 
 int main()
 {
 	int a[37] = {0},i,j=0;
 	char s[max];
 	node *p,*head=NULL;
-	char code[36][100];
+	int code[36][1000];
 	
 	scanf("%s",s);
 	frequency(a,s);
@@ -183,22 +214,9 @@ int main()
 
 	preorder(head);
 	
-//	for(i=0;i<35;i++)
-//	{
-//		p = encode(head , code[i]);
-//		
-//		printf("\n");
-//		printf("%c ",p->symbol[0]);
-//		j=0;
-//		
-//		while(code[i][j]!='\0')
-//		{
-//			printf("%c",code[i][j]);
-//			j++;
-//		}
-//		printf("\n");
-//		
-//	}
+	
+	printCodes(head, code[i] , 0);
+	
 
 	return 0;
 }
